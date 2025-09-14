@@ -1,15 +1,85 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-sans:
+    "Inter", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
 html,
 body {
-  @apply bg-white dark:bg-gray-950;
+  @apply min-h-screen;
+  background: #a5d4c6;
+  background: -webkit-linear-gradient(
+    0deg,
+    rgba(165, 212, 198, 1) 0%,
+    rgba(204, 224, 214, 1) 52%
+  );
+  background: -moz-linear-gradient(
+    0deg,
+    rgba(165, 212, 198, 1) 0%,
+    rgba(204, 224, 214, 1) 52%
+  );
+  background: linear-gradient(
+    0deg,
+    rgba(165, 212, 198, 1) 0%,
+    rgba(204, 224, 214, 1) 52%
+  );
+  filter: progid:DXImageTransform.Microsoft.gradient(
+  startColorstr="#A5D4C6",
+  endColorstr="#CCE0D6",
+  GradientType=0
+  
+);
 
   @media (prefers-color-scheme: dark) {
     color-scheme: dark;
   }
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(2px) saturate(180%);
+  -webkit-backdrop-filter: blur(2px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow:
+    0 8px 32px rgba(31, 38, 135, 0.2),
+    inset 0 4px 20px rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease-in-out;
+}
+
+.glass:hover {
+  background: rgba(255, 255, 255, 0.55);
+  box-shadow:
+    -webkit-box-shadow: 0px 8px 32px 8px #FFFFFF; 
+box-shadow: 0px 8px 32px 8px rgba(255, 255, 255, 0.3),
+    inset 0 4px 20px rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+}
+
+.cardInfo{
+  background-color: rgba(255, 255, 255, 0.78);
+  mask-image: linear-gradient(to top, white 10%, transparent);
+  -webkit-mask-image: linear-gradient(to top, white 10%, transparent);
+}
+
+.cardInfo h2, .cardInfo p{
+  color: rgba(255, 255, 255, 1);
+}
+
+
+.pill .mask {
+  display: flex;
+  justify-content: center; /* keeps text centered when idle */
+}
+.pill .marquee-track {
+  will-change: transform;
+}
+.pill .copy {
+  /* adjust spacing to taste */
+  padding-right: 2rem;
+}
+.pill .shine {
+  /* already set via Tailwind utility classes in the component */
+  will-change: transform, opacity;
 }

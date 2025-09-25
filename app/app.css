@@ -1,3 +1,5 @@
+
+
 @import "tailwindcss";
 
 @theme {
@@ -6,9 +8,11 @@
     "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
+
 html,
 body {
   @apply min-h-screen;
+  font-family: "Archia", sans-serif;
   background: #a5d4c6;
   background: -webkit-linear-gradient(
     0deg,
@@ -25,12 +29,7 @@ body {
     rgba(165, 212, 198, 1) 0%,
     rgba(204, 224, 214, 1) 52%
   );
-  filter: progid:DXImageTransform.Microsoft.gradient(
-  startColorstr="#A5D4C6",
-  endColorstr="#CCE0D6",
-  GradientType=0
-  
-);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#A5D4C6",endColorstr="#CCE0D6",GradientType=0);
 
   @media (prefers-color-scheme: dark) {
     color-scheme: dark;

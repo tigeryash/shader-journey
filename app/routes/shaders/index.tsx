@@ -1,7 +1,7 @@
-import ShaderCard from "~/components/card";
-import { shaderLinks } from "../constants/shaderLinks";
+import ShaderCard from "components/card";
+import { shaderLinks } from "../../../constants/shaderLinks";
 
-export function Welcome() {
+export function ShaderList() {
   return (
     <main className="flex flex-col items-center justify-center pt-16 pb-4">
       <h1 className="text-4xl font-bold">

@@ -2,17 +2,14 @@ import { NavLink } from "react-router";
 import gsap from "gsap";
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
+import type { SceneEntry } from "features/registry";
 
 type ShaderCardProps = {
-  shader: {
-    name: string;
-    img: string;
-    link: string;
-    description?: string;
-  };
+  slug: string;
+  shader: SceneEntry;
 };
 
-const ShaderCard = ({ shader }: ShaderCardProps) => {
+const ShaderCard = ({ slug, shader }: ShaderCardProps) => {
   const pillRef = useRef<HTMLSpanElement | null>(null);
 
   useGSAP(() => {});
@@ -22,7 +19,7 @@ const ShaderCard = ({ shader }: ShaderCardProps) => {
 
   return (
     <NavLink
-      to={shader.link}
+      to={`/shader/${slug}`}
       onMouseEnter={enter}
       onMouseLeave={leave}
       onFocus={enter}
@@ -42,7 +39,7 @@ const ShaderCard = ({ shader }: ShaderCardProps) => {
           px-4 pb-4 pt-16 bg-transparent  space-y-4"
         >
           <div className="space-y-1">
-            <h2 className="text-lg ">{shader.name}</h2>
+            <h2 className="text-lg ">{shader.title}</h2>
 
             <p className="text-sm">{shader.description}</p>
           </div>

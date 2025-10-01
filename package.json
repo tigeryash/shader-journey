@@ -21,6 +21,7 @@
     "react-dom": "^19.1.0",
     "react-router": "^7.7.1",
     "three": "^0.180.0",
+    "three-custom-shader-material": "^6.3.7",
     "vite-plugin-glsl": "^1.5.1"
   },
   "devDependencies": {
@@ -29,9 +30,11 @@
     "@types/node": "^20",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
+    "@types/three": "^0.180.0",
     "tailwindcss": "^4.1.13",
     "typescript": "^5.8.3",
     "vite": "^6.3.3",
+    "vite-plugin-restart": "^1.0.0",
     "vite-tsconfig-paths": "^5.1.4"
   }
 }

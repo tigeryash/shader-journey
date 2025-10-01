@@ -1,5 +1,5 @@
 import type { Route } from "./+types/home";
-import { ShaderList } from "./shaders/index";
+import { ShaderList } from "./shader/index";
 
 export function meta({}: Route.MetaArgs) {
   return [

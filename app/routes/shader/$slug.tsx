@@ -3,6 +3,7 @@ import { Canvas } from "@react-three/fiber";
 import { Suspense, useEffect } from "react";
 import { shaders } from "../../../features/registry";
 import { OrbitControls } from "@react-three/drei";
+import { Leva } from "leva";
 
 function Background({ color = "#000" }: { color?: string }) {
   return <color attach="background" args={[color]} />;
@@ -18,7 +19,7 @@ export default function ShaderRoute() {
   const dpr = entry.canvas?.dpr ?? [1, Math.min(2, window.devicePixelRatio)];
   const camera = entry.canvas?.camera ?? {
     fov: 45,
-    position: [0, 0, 5] as [number, number, number],
+    position: [0, 0, 20] as [number, number, number],
   };
 
   // Optional: pause rendering when tab hidden
@@ -41,6 +42,7 @@ export default function ShaderRoute() {
           <Scene />
         </Suspense>
       </Canvas>
+      <Leva collapsed />
     </div>
   );
 }

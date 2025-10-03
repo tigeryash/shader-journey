@@ -17,14 +17,14 @@ export default function Shader1() {
 
   useControls("Shader Controls", {
     waveAmplitude: {
-      value: 0.77,
+      value: 1.43,
       onChange: (value) => handleChange(value, "u_waveAmplitude"),
       min: 0,
       max: 2,
       step: 0.01,
     },
     waveFrequency: {
-      value: 1.36,
+      value: 1.54,
       onChange: (value) => handleChange(value, "u_waveFrequency"),
       min: 0,
       max: 10,
@@ -59,7 +59,7 @@ export default function Shader1() {
   });
   return (
     <mesh>
-      <planeGeometry args={[10, 10, 200, 200]} />
+      <planeGeometry args={[10, 10, 180, 180]} />
 
       <CustomShaderMaterial
         wireframe

@@ -1,24 +1,22 @@
 uniform float u_time;
 uniform float u_waveAmplitude;  
 uniform float u_waveFrequency;
+uniform vec2 u_waveSpeed;
 
 varying vec3 vPosition;
 varying vec2 vUv;
 
-#include ../noise/cnoise2D.glsl
+#include ../noise/cnoise3D.glsl
 
 void main(){
     vec3 pos = position;
 
-    float wave = sin(pos.x * u_waveFrequency + u_time * 0.5);
-    float wave2 = sin(pos.y * u_waveFrequency * .8 + u_time * .12 );
-    float combined = (wave * wave2 )  * .5 * u_waveAmplitude;
-
-    float noise = cnoise2D(pos.xy *.5); 
-    combined += noise * 0.2;
-    pos.z += combined;
+    float elevation = sin(pos.x * u_waveFrequency *.66 + u_time * u_waveSpeed.x) *sin(pos.y * u_waveFrequency *1.7 + u_time * u_waveSpeed.y )* u_waveAmplitude;
+  
+    elevation += cnoise3D(vec3(pos.xy *.5, u_time * 0.04)); 
     
-
+    pos.z += elevation;
+    
     csm_Position = pos;
 
     vPosition = csm_Position.xyz;

@@ -1,113 +1,100 @@
-import vertex from "../shaders/shader1/vertex.glsl";
-import fragment from "../shaders/shader1/fragment.glsl";
-import CustomShaderMaterial from "three-custom-shader-material";
 import * as THREE from "three";
-import { useRef } from "react";
-import { useFrame } from "@react-three/fiber";
+import { useMemo, useRef } from "react";
+import { extend,  useFrame } from "@react-three/fiber";
 import { useControls } from "leva";
 import { useTexture } from "@react-three/drei";
+import { 
+  uniform,
+  texture,
+  positionLocal,
+  sin,
+  vec3,
+  vec2,
+  mix,
+  smoothstep,
+  uv
+} from 'three/tsl';
+import { MeshBasicNodeMaterial } from "three/webgpu";
+
+
+extend({ MeshBasicNodeMaterial });
+
 
 export default function Shader1() {
   const materialRef = useRef<any>(null);
   const noiseTexture = useTexture("/noiseTexture.png");
   noiseTexture.wrapS = THREE.RepeatWrapping;
   noiseTexture.wrapT = THREE.RepeatWrapping;
-  noiseTexture.minFilter = THREE.LinearFilter;
-  noiseTexture.magFilter = THREE.LinearFilter;
-
-  const handleWaveChange = (value: number, uniformName: string) => {
-    if (materialRef.current?.uniforms) {
-      materialRef.current.uniforms[uniformName].value = value;
-    }
-  };
-
-  const handleColorChange = (value: string, uniformName: string) => {
-    if (materialRef.current?.uniforms) {
-      materialRef.current.uniforms[uniformName].value = new THREE.Color(value);
-    }
-  };
-
-  useControls("Shader Controls", {
-    waveSpeed: {
-      value: { x: 0.029, y: 0.04 },
-      onChange: (value) => handleWaveChange(value, "u_waveSpeed"),
-      min: 0,
-      max: 1,
-      step: 0.01,
-    },
-    waveAmplitude: {
-      value: 0.67,
-      onChange: (value) => handleWaveChange(value, "u_waveAmplitude"),
-      min: 0,
-      max: 2,
-      step: 0.01,
-    },
-    waveFrequency: {
-      value: 1.81,
-      onChange: (value) => handleWaveChange(value, "u_waveFrequency"),
-      min: 0,
-      max: 10,
-      step: 0.01,
-    },
-    color1: {
-      value: "#ff6b35",
-      onChange: (value) => handleColorChange(value, "u_color1"),
-    },
-    color2: {
-      value: "#004e89",
-      onChange: (value) => handleColorChange(value, "u_color2"),
-    },
-    color3: {
-      value: "#1a1a1a",
-      onChange: (value) => handleColorChange(value, "u_color3"),
-    },
-    color4: {
-      value: "#f0f3bd",
-      onChange: (value) => handleColorChange(value, "u_color4"),
-    },
-    color5: {
-      value: "#00bbf9",
-      onChange: (value) => handleColorChange(value, "u_color5"),
-    },
-    wireframe: {
-      value: false,
-      label: "Wireframe",
-      onChange: (value) => {
-        if (materialRef.current) {
-          materialRef.current.wireframe = value;
-        }
-      },
-    },
+ 
+  
+  const controls = useControls("Shader Controls", {
+    waveSpeed: { value: { x: 0.029, y: 0.04 }, min: 0, max: 1, step: 0.01 },
+    waveAmplitude: { value: 0.67, min: 0, max: 2, step: 0.01 },
+    waveFrequency: { value: 1.81, min: 0, max: 10, step: 0.01 },
+    color1: { value: "#ff6b35" },
+    color2: { value: "#004e89" },
+    color3: { value: "#1a1a1a" },
+    color4: { value: "#f0f3bd" },
+    color5: { value: "#00bbf9" },
+    wireframe: { value: false },
   });
+
+  // Create TSL uniforms
+const timeUniform = useMemo(() => uniform(0), []);
+  const waveAmplitudeUniform = useMemo(() => uniform(controls.waveAmplitude), []);
+  const waveFrequencyUniform = useMemo(() => uniform(controls.waveFrequency), []);
+  const waveSpeedUniform = useMemo(() => uniform(vec2(controls.waveSpeed.x, controls.waveSpeed.y)), []);
+  
+  const color1Uniform = useMemo(() => uniform(new THREE.Color(controls.color1)), []);
+  const color2Uniform = useMemo(() => uniform(new THREE.Color(controls.color2)), []);
+  const color3Uniform = useMemo(() => uniform(new THREE.Color(controls.color3)), []);
+  const color4Uniform = useMemo(() => uniform(new THREE.Color(controls.color4)), []);
+  const color5Uniform = useMemo(() => uniform(new THREE.Color(controls.color5)), []);
+  
+  const noiseTextureNode = useMemo(() => texture(noiseTexture), [noiseTexture]);
+
+  // Position displacement - wrapped in useMemo
+  const { newPosition, finalColor } = useMemo(() => {
+    const animatedUV = uv().add(waveSpeedUniform.mul(timeUniform));
+    const noise = noiseTextureNode.sample(animatedUV).r;
+    const wave = sin(positionLocal.x.mul(waveFrequencyUniform).add(timeUniform));
+    const displacement = wave.mul(waveAmplitudeUniform).mul(noise);
+    const newPosition = positionLocal.add(vec3(0, 0, displacement));
+
+    // Color mixing
+    const mixFactor = noise.mul(wave.add(1).mul(0.5));
+    const color1to2 = mix(color1Uniform, color2Uniform, smoothstep(0, 0.25, mixFactor));
+    const color2to3 = mix(color1to2, color3Uniform, smoothstep(0.25, 0.5, mixFactor));
+    const color3to4 = mix(color2to3, color4Uniform, smoothstep(0.5, 0.75, mixFactor));
+    const finalColor = mix(color3to4, color5Uniform, smoothstep(0.75, 1, mixFactor));
+
+    return { newPosition, finalColor };
+  }, [timeUniform, waveAmplitudeUniform, waveFrequencyUniform, waveSpeedUniform, 
+      color1Uniform, color2Uniform, color3Uniform, color4Uniform, color5Uniform, 
+      noiseTextureNode]);
 
   useFrame((state) => {
-    if (materialRef.current?.uniforms) {
-      materialRef.current.uniforms.u_time.value = state.clock.elapsedTime;
-    }
+    timeUniform.value = state.clock.elapsedTime;
+    waveAmplitudeUniform.value = controls.waveAmplitude;
+    waveFrequencyUniform.value = controls.waveFrequency;
+    waveSpeedUniform.value.set(controls.waveSpeed.x, controls.waveSpeed.y);
+    color1Uniform.value.set(controls.color1);
+    color2Uniform.value.set(controls.color2);
+    color3Uniform.value.set(controls.color3);
+    color4Uniform.value.set(controls.color4);
+    color5Uniform.value.set(controls.color5);
   });
+
   return (
     <mesh>
       <planeGeometry args={[10, 10, 180, 180]} />
-
-      <CustomShaderMaterial
-        wireframe={materialRef.current?.wireframe || false}
-        baseMaterial={THREE.MeshStandardMaterial}
-        vertexShader={vertex}
-        fragmentShader={fragment}
-        side={THREE.DoubleSide}
-        uniforms={{
-          u_time: { value: 0 },
-          u_waveAmplitude: { value: 0.5 },
-          u_waveFrequency: { value: 2.0 },
-          u_noiseTexture: { value: noiseTexture },
-          u_color1: { value: new THREE.Color("#ff6b35") },
-          u_color2: { value: new THREE.Color("#004e89") },
-          u_color3: { value: new THREE.Color("#1a1a1a") },
-          u_color4: { value: new THREE.Color("#f0f3bd") },
-          u_color5: { value: new THREE.Color("#00bbf9") },
-          u_waveSpeed: { value: { x: 0.1, y: 0.1 } },
-        }}
+      {/* @ts-ignore */}
+      <meshBasicNodeMaterial
         ref={materialRef}
+        wireframe={controls.wireframe}
+        side={THREE.DoubleSide}
+        positionNode={newPosition}
+        colorNode={finalColor}
       />
     </mesh>
   );

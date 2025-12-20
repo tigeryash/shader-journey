@@ -38,7 +38,7 @@ export default function ShaderRoute() {
 	const dpr = entry.canvas?.dpr ?? [1, Math.min(2, window.devicePixelRatio)];
 	const camera = entry.canvas?.camera ?? {
 		fov: 45,
-		position: [0, 0, 20] as [number, number, number],
+		position: [0, 0, 2] as [number, number, number],
 	};
 
 	return (
@@ -65,6 +65,7 @@ export default function ShaderRoute() {
 					fov: 45,
 					near: 0.1,
 					far: 200,
+					position: camera.position,
 				}}
 			>
 				<ambientLight intensity={0.5} />

@@ -1,6 +1,5 @@
 {
   "lockfileVersion": 1,
-  "configVersion": 0,
   "workspaces": {
     "": {
       "name": "react-shaders",
@@ -20,6 +19,7 @@
         "react-router": "^7.7.1",
         "three": "^0.180.0",
         "three-custom-shader-material": "^6.3.7",
+        "tsl-textures": "^2.5.1",
         "vite-plugin-glsl": "^1.5.1",
       },
       "devDependencies": {
@@ -932,6 +932,8 @@
     "troika-worker-utils": ["troika-worker-utils@0.52.0", "", {}, "sha512-W1CpvTHykaPH5brv5VHLfQo9D1OYuo0cSBEUQFFT/nBUzM8iD6Lq2/tgG/f1OelbAS1WtaTPQzE5uM49egnngw=="],
 
     "tsconfck": ["tsconfck@3.1.6", "", { "peerDependencies": { "typescript": "^5.0.0" }, "optionalPeers": ["typescript"], "bin": { "tsconfck": "bin/tsconfck.js" } }, "sha512-ks6Vjr/jEw0P1gmOVwutM3B7fWxoWBL2KRDb1JfqGVawBmO5UsvmWOQFGHBPl5yxYz4eERr19E6L7NMv+Fej4w=="],
+
+    "tsl-textures": ["tsl-textures@2.5.1", "", {}, "sha512-SfooWvxYArvSxzOKvil26gCZycUC94fn0elAh5grH62XY89Fut/NWCjfbPea2jSN1+hSeR6NfQVdtBQWXnZlaQ=="],
 
     "tslib": ["tslib@2.8.1", "", {}, "sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w=="],
 

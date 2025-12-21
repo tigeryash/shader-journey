@@ -25,6 +25,7 @@ export default function Shader1() {
 	const { position, frequency } = useControls({
 		position: { value: [0, 0, 0], step: 0.1 },
 		frequency: { value: [10, 5], step: 0.1 },
+		amplitude: { value: 0.1, step: 0.1 },
 	});
 
 	const geometry = useMemo(() => {
@@ -49,6 +50,7 @@ export default function Shader1() {
 		const aCount = attribute("aCount");
 		const uFrequency = uniform(new THREE.Vector2(10, 5));
 		const uTexture = texture(flagTexture, uv());
+		const uAmplitude = uniform(0.1);
 
 		// Transform local position by model matrix (same as modelMatrix * vec4(position, 1.0))
 		// const zOffset = sin(positionLocal.x.mul(10)).mul(0.1);
@@ -66,10 +68,23 @@ export default function Shader1() {
 		// 	positionLocal.z.add(aCount.mul(0.1)),
 		// );
 
+		const getElevation = Fn(() => {
+			let elevation = sin(positionLocal.x.mul(uFrequency.x).sub(uTime)).mul(
+				uAmplitude,
+			);
+			elevation.addAssign(
+				sin(positionLocal.y.mul(uFrequency.y).sub(uTime)).mul(uAmplitude),
+			);
+
+			let textureColor = uTexture;
+			textureColor.rgb.mulAssign(elevation.mul(2).add(0.5));
+			return textureColor;
+		});
+
 		const modifiedPosition = Fn(() => {
 			const pos = positionLocal.toVar();
-			const zOffsetY = sin(pos.y.mul(uFrequency.y).sub(uTime)).mul(0.1);
-			const zOffsetX = sin(pos.x.mul(uFrequency.x).sub(uTime)).mul(0.1);
+			const zOffsetY = sin(pos.y.mul(uFrequency.y).sub(uTime)).mul(uAmplitude);
+			const zOffsetX = sin(pos.x.mul(uFrequency.x).sub(uTime)).mul(uAmplitude);
 			pos.z.addAssign(zOffsetX.add(zOffsetY));
 
 			return pos;
@@ -77,7 +92,7 @@ export default function Shader1() {
 		const normalNode = vNormal;
 
 		// const colorNode = vec4(0.5, aCount, 1, 1);
-		const colorNode = uTexture;
+		const colorNode = getElevation();
 
 		return {
 			nodes: {

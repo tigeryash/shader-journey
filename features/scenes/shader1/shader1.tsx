@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { useEffect, useMemo } from "react";
-import { extend, useFrame, useLoader, useThree } from "@react-three/fiber";
+import { extend, useFrame, useLoader } from "@react-three/fiber";
 import {
 	vec3,
 	uniform,
@@ -14,12 +14,27 @@ import {
 } from "three/tsl";
 import { MeshStandardNodeMaterial } from "three/webgpu";
 import { useControls } from "leva";
+import Step1 from "./s1-1";
+import Step2 from "./s1-2";
 
 extend({ MeshStandardNodeMaterial });
 
-export default function Shader1() {
-	const { scene, gl } = useThree();
+const STEPS = [
+	{
+		title: "Step 1: Basic Plane",
+		description: "Starting with a simple MeshStandardNodeMaterial.",
+		code: `// Basic TSL setup\nconst colorNode = vec3(1, 0, 0);`,
+		Component: Step1,
+	},
+	{
+		title: "Step 2: Adding Waves",
+		description: "Using sin() and positionLocal to create movement.",
+		code: `const zOffset = sin(positionLocal.x.mul(uFrequency)).mul(uAmplitude);`,
+		Component: Step2,
+	},
+];
 
+export default function Shader1() {
 	const flagTexture = useLoader(THREE.TextureLoader, "/usflag.png");
 
 	const { position, frequency } = useControls({

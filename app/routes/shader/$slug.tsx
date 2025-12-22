@@ -6,6 +6,7 @@ import { OrbitControls } from "@react-three/drei";
 import { Leva } from "leva";
 import { WebGPURenderer } from "three/webgpu";
 import ShaderLoading from "components/shader-loading";
+import ShaderOverlay from "components/shader-overlay";
 
 function Background({ color = "#000" }: { color?: string }) {
 	return <color attach="background" args={[color]} />;
@@ -43,6 +44,7 @@ export default function ShaderRoute() {
 
 	return (
 		<div style={{ width: "100%", height: "100vh" }}>
+			<ShaderOverlay slug={slug} />
 			<Canvas
 				dpr={dpr}
 				frameloop={frameloop}

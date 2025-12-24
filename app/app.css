@@ -1,11 +1,12 @@
-
-
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&family=Syne:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
+
 
 @theme {
   --font-sans:
     "Inter", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
     "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+      --font-mono: "JetBrains Mono", ui-monospace, monospace;
 }
 
 
@@ -49,9 +50,8 @@ body {
 
 .glass:hover {
   background: rgba(255, 255, 255, 0.55);
-  box-shadow:
-    -webkit-box-shadow: 0px 8px 32px 8px #FFFFFF; 
-box-shadow: 0px 8px 32px 8px rgba(255, 255, 255, 0.3),
+  -webkit-box-shadow: 0px 8px 32px 8px #FFFFFF; 
+  box-shadow: 0px 8px 32px 8px rgba(255, 255, 255, 0.3),
     inset 0 4px 20px rgba(255, 255, 255, 0.4);
   border: 1px solid rgba(255, 255, 255, 0.9);
 }

@@ -5,19 +5,19 @@ import Step3 from "features/scenes/shader1/s1-3";
 export const STEPS = [
 	[
 		{
-			title: "Step 1: Basic Plane",
+			title: "Basic Plane",
 			description: "Starting with a simple MeshStandardNodeMaterial.",
 			code: `// Basic TSL setup\nconst colorNode = vec3(1, 0, 0);`,
 			Component: Step1,
 		},
 		{
-			title: "Step 2: Adding Waves",
+			title: "Adding Waves",
 			description: "Using sin() and positionLocal to create movement.",
 			code: `const zOffset = sin(positionLocal.x.mul(uFrequency)).mul(uAmplitude);`,
 			Component: Step2,
 		},
 		{
-			title: "Step 3: Final Touches",
+			title: "Final Touches",
 			description: "Adding texture and refining the shader.",
 			code: `const flagTexture = texture(uv);`,
 			Component: Step3,

@@ -5,8 +5,8 @@ import Aside from "./overlay-components/aside";
 import Steps from "./overlay-components/steps";
 import Navigation from "./overlay-components/navigation";
 import StepsCounter from "./overlay-components/steps-counter";
-import CodeSnippet from "./overlay-components/code-snippet";
 import StepDescription from "./overlay-components/step-description";
+import ShaderShowcase from "./overlay-components/shader-showcase";
 
 export default function ShaderOverlay({ slug }: { slug: string | undefined }) {
 	const [step, setStep] = useState(0);
@@ -26,7 +26,7 @@ export default function ShaderOverlay({ slug }: { slug: string | undefined }) {
 			<Navigation step={step} setStep={setStep} length={length} />
 			<StepDescription step={step} slug={slug} />
 			<StepsCounter step={step} length={length} toggleOpen={toggleOpen} />
-			<CodeSnippet step={step} />
+			<ShaderShowcase step={step} slug={slug} />
 		</main>
 	);
 }

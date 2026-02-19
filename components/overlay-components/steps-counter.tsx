@@ -62,7 +62,7 @@ const StepsCounter = ({
 					}}
 				>
 					<span
-						className={`absolute  backface-hidden  `}
+						className={`absolute  backface-hidden mix `}
 						style={{ transform: "rotateX(0deg) translateZ(16px)" }}
 					>
 						0{prevStep + 1}

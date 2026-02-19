@@ -8,8 +8,10 @@ const StepDescription = ({
 	slug: string | undefined;
 }) => {
 	return (
-		<div className="fixed top-32 left-10 border border-white/30 rounded-lg backdrop-blur-md bg-black/30 p-6">
-			{STEPS[slug ? parseInt(slug, 10) - 1 : 0][step]?.description}
+		<div className="fixed top-32 left-10 border border-white/30 bg-black/30 backdrop-blur-md rounded-lg p-6 text-white  max-w-md">
+			<p className=" ">
+				{STEPS[slug ? parseInt(slug, 10) - 1 : 0][step]?.description}
+			</p>
 		</div>
 	);
 };

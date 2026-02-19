@@ -8,11 +8,15 @@ export function ShaderList() {
         Yash's React Shaders <br /> from Threejs Journey
       </h1>
 
+      <h2>TSL Shaders</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4 lg:gap-6 mt-8">
         {Object.entries(shaders).map(([slug, s]) => (
           <ShaderCard key={slug} shader={s} slug={slug} />
         ))}
       </div>
+        
+      <h2>GLSL Shaders</h2>
+     
     </main>
   );
 }

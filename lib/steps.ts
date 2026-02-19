@@ -8,6 +8,7 @@ export const STEPS = [
 			title: "Basic Plane",
 			description: "Starting with a simple MeshStandardNodeMaterial.",
 			code: `// Basic TSL setup\nconst colorNode = vec3(1, 0, 0);`,
+
 			Component: Step1,
 		},
 		{

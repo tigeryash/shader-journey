@@ -1,6 +1,6 @@
-import Step1 from "features/scenes/shader1/s1-1";
-import Step2 from "features/scenes/shader1/s1-2";
-import Step3 from "features/scenes/shader1/s1-3";
+import Step1 from "features/scenes/tsl/shader1/s1-1";
+import Step2 from "features/scenes/tsl/shader1/s1-2";
+import Step3 from "features/scenes/tsl/shader1/s1-3";
 
 export const STEPS = [
 	[

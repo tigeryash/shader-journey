@@ -1,5 +1,5 @@
 import ShaderCard from "components/card";
-import { shaders } from "../../../features/registry";
+import { glslShaders, shaders } from "../../../features/registry";
 
 export function ShaderList() {
   return (
@@ -16,7 +16,11 @@ export function ShaderList() {
       </div>
         
       <h2>GLSL Shaders</h2>
-     
+     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4 lg:gap-6 mt-8">
+        {Object.entries(glslShaders).map(([slug, s]) => (
+          <ShaderCard key={slug} shader={s} slug={slug} />
+        ))}
+      </div>
     </main>
   );
 }
